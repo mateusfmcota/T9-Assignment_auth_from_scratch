@@ -1,17 +1,18 @@
 class SessionsController < ApplicationController
+  before_action :find_params
   def destroy
 
   end
 
   def create
-    flash[:notice] = "Welcome #{user.email}"
+    flash[:notice] = "Welcome #{@user.email}"
     redirect_to root_path
   end
 
   private
 
-    def user
-      User.find_by(email: params[:email])
+    def find_params
+      @user = User.find_by(email: params[:email])
         &.authenticate(params[:password])
     end
 end
